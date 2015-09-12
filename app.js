@@ -1,5 +1,11 @@
 var twilio = require('twilio'),
-client = twilio('ACCOUNTSIP','ACCOUNTAUTH');
+client = twilio('ACCOUNTSID','AUTHTOKEN');
+
+var Firebase = require('firebase'),
+messagesRef = new Firebase('FIREBASESITE');
+messagesRef.on('child_added', function(snapshot) {
+	console.log( 'New text received')
+})
 
 var express = require('express'),
 bodyParser = require('body-parser'),
@@ -10,8 +16,11 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.post('/message', function (req, res) {
+	var sentText = req.body.Body;
+	messagesRef.push(sentText);
+	console.log(sentText);
 	var resp = new twilio.TwimlResponse();
-	resp.message('Thanks for subscribing!');
+	resp.message('Your text was received! >(^._.^)<');
 	res.writeHead(200, {
 		'Content-Type':'text/xml'
 	});
