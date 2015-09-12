@@ -1,5 +1,5 @@
 var twilio = require('twilio'),
-client = twilio('ACCOUNTSID','AUTHTOKEN');
+client = twilio('ACCOUNTSIP','ACCOUNTAUTH');
 
 var express = require('express'),
 bodyParser = require('body-parser'),
@@ -11,13 +11,13 @@ app.use(bodyParser.urlencoded({
 
 app.post('/message', function (req, res) {
 	var resp = new twilio.TwimlResponse();
-	resp.message('Thanks for subscribing, we don\'t actually care though ^^;');
-	resp.writeHead(200, {
+	resp.message('Thanks for subscribing!');
+	res.writeHead(200, {
 		'Content-Type':'text/xml'
 	});
 	res.end(resp.toString());
 });
 
-var server = app.listen(3000, function() {
+var server = app.listen(4567, function() {
 	console.log('Listening on port %d', server.address().port);
 });
